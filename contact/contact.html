@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <link rel="stylesheet" href="styles2.css" />
+        <meta charset="UTF-8">
+        <title>contacter-nous</title>
+    </head>
+</head>
+<body>
+        <h1>Remplissez le formulaire pour envoyer un email</h1>
+        <form id="emailForm">
+          <fieldset>
+            <label for="first-name">Votre nom: 
+              <input id="first-name" name="first-name" type="text" required />
+            </label>
+            <label for="last-name">Votre prénom: 
+              <input id="last-name" name="last-name" type="text" required />
+            </label>
+            <label for="email">Votre Email: 
+              <input id="email" name="email" type="email" required />
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>Account type (required)</legend>
+            <label for="personal-account">
+              <input id="personal-account" type="radio" name="account-type" class="inline" checked /> Personal
+            </label>
+            <label for="business-account">
+              <input id="business-account" type="radio" name="account-type" class="inline" /> Business
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>Message personnel</legend>
+            <label for="personal-message">Votre message :</label>
+            <textarea id="personal-message" name="personal-message" rows="5" placeholder="Tapez votre message ici..." required></textarea>
+          </fieldset>
+          <button type="button" id="sendButton" disabled>Envoyer l'email</button>
+        </form>
+      
+        <script>
+          // Récupération des éléments du formulaire
+          const form = document.getElementById('emailForm');
+          const firstNameInput = document.getElementById('first-name');
+          const lastNameInput = document.getElementById('last-name');
+          const emailInput = document.getElementById('email');
+          const personalAccount = document.getElementById('personal-account');
+          const businessAccount = document.getElementById('business-account');
+          const personalMessageInput = document.getElementById('personal-message');
+          const sendButton = document.getElementById('sendButton');
+      
+          // Activer le bouton "Envoyer l'email" seulement si tous les champs sont remplis
+          form.addEventListener('input', () => {
+            if (
+              firstNameInput.value &&
+              lastNameInput.value &&
+              emailInput.value &&
+              (personalAccount.checked || businessAccount.checked) &&
+              personalMessageInput.value
+            ) {
+              sendButton.disabled = false;
+            } else {
+              sendButton.disabled = true;
+            }
+          });
+      
+          // Fonction pour envoyer un email
+          sendButton.addEventListener('click', () => {
+            const recipient = "bsoufiane960@gmail.com"; // Adresse du destinataire
+            const subject = "Formulaire soumis par " + firstNameInput.value + " " + lastNameInput.value;
+            const accountType = personalAccount.checked ? "Personal" : "Business";
+            const body = `
+              Nom : ${firstNameInput.value}
+              Prénom : ${lastNameInput.value}
+              Email : ${emailInput.value}
+              Type de compte : ${accountType}
+              
+              Message personnel :
+              ${personalMessageInput.value}
+            `;
+      
+            const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+          });
+        </script>
+
+</body>
+</html>
